@@ -505,7 +505,7 @@
             @else
                 <div class="figuras">
                     @foreach ($destacados as $p)
-                        <article class="fig rev" style="--d:{{ $loop->index * .1 }}s">
+                            <article class="fig rev" @style(['--d: ' . ($loop->index * .1) . 's'])>
                             <div class="peana peana-img">
                                 @if ($p->imagen)
                                     <img src="{{ asset($p->imagen) }}" alt="{{ $p->nombre }}" loading="lazy">
