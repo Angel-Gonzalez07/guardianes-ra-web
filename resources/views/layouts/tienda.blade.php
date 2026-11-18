@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
+        abel:has(+ :is(input, select, textarea)[required])::after { content: " *"; color: #C62828; font-weight: 700; }
         :root { --verde:#2E7D32; --verde-osc:#1B5E20; --menta:#A5D6A7; --crema:#FFF8E1; --cafe:#5D4037; --ambar:#FFB300; --rojo:#B3261E; --sombra:0 8px 24px rgba(93,64,55,.15); }
         * { box-sizing:border-box; margin:0; padding:0; }
         body { font-family:'Nunito', Arial, sans-serif; background:var(--crema); color:var(--cafe); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }

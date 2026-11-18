@@ -73,6 +73,9 @@
     .fila { display: grid; grid-template-columns: 1.7fr 1fr; gap: 1rem; margin-bottom: 1rem; }
     .fila.iguales { grid-template-columns: 1fr 1fr; }
     .fila > * { min-width: 0; }
+     /* Campos obligatorios */
+    .adm-form label:has(+ :is(input, select, textarea)[required])::after { content: " *"; color: #C62828; font-weight: 700; }
+    .adm-form form:has([required])::before { content: "Los campos marcados con * son obligatorios."; display: block; margin: .8rem 0 0; font-size: .78rem; color: var(--muted); }
     @media (max-width: 1000px) { .fila, .fila.iguales { grid-template-columns: 1fr; } }
 
     .panel .adm-tabla-wrap { border: 0; border-radius: 0; }

@@ -5,6 +5,7 @@
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <title>@yield('titulo', 'Guardianes RA')</title>
        <style>
+           label:has(+ :is(input, select, textarea)[required])::after { content: " *"; color: #C62828; font-weight: 700; }
            :root { --verde: #2E7D32; --menta: #A5D6A7; --crema: #FFF8E1; --cafe: #5D4037; --ambar: #FFB300; }
            * { box-sizing: border-box; }
            body { margin: 0; font-family: Arial, sans-serif; background: var(--crema); color: var(--cafe); }
