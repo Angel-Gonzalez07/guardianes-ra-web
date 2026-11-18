@@ -12,9 +12,9 @@
     .buscar input { min-width:220px; }
     .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:1.4rem; }
     .prod { background:#fff; border-radius:22px; box-shadow:var(--sombra); overflow:hidden; display:flex; flex-direction:column; }
-    .prod-img { height:170px; background:linear-gradient(var(--menta), #C8E6C9); display:grid; place-items:center; }
-    .prod-img img { width:100%; height:100%; object-fit:cover; }
-    .prod-img span { font:800 3.4rem 'Baloo 2',sans-serif; color:var(--verde); opacity:.55; }
+    .prod-img { position:relative; height:230px; overflow:hidden; background:#F3F4F1; }
+    .prod-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:.4rem; }
+    .prod-img span { position:absolute; inset:0; display:grid; place-items:center; font:800 3.4rem 'Baloo 2',sans-serif; color:var(--verde); opacity:.55; background:linear-gradient(var(--menta), #C8E6C9); }
     .prod-cuerpo { padding:1rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:.3rem; flex:1; }
     .prod h3 { color:var(--verde); font-size:1.2rem; }
     .prod small { color:#8D6E63; font-weight:700; }
