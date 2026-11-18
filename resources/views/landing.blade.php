@@ -582,7 +582,7 @@
         </div>
     </section>
 
-    <footer><svg class="logo-svg" viewBox="0 0 64 64" style="margin:0 auto .4rem"><use href="#logo"/></svg> 2026 Guardianes RA · Raíces Creativas · UTCV</footer>
+    <footer><svg class="logo-svg" viewBox="0 0 64 64" style="margin:0 auto .4rem"><use href="#logo"/></svg> 2026 Guardianes RA · CAEJA STUDIO · UTCV</footer>
 
     <script>
         (function () {
