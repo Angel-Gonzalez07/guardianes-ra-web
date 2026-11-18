@@ -130,6 +130,10 @@
         .fig:hover .peana svg { transform:translateY(-6px) rotate(4deg) scale(1.08); }
         .fig h3 { color:var(--verde); margin-bottom:.4rem; }
         .etiqueta { display:inline-block; background:var(--ambar); padding:.15rem .95rem; border-radius:999px; font-size:.8rem; font-weight:800; }
+        .peana-img { padding:0; height:170px; display:grid; place-items:center; overflow:hidden; }
+        .peana-img img { width:100%; height:100%; object-fit:cover; }
+        .inicial { font:800 3.4rem 'Baloo 2',sans-serif; color:var(--verde); opacity:.55; }
+        .precio-l { font:800 1.35rem 'Baloo 2',sans-serif; margin:0 0 .7rem; }
 
         /* App */
         .app { background:linear-gradient(135deg, var(--verde), var(--verde-osc)); color:#fff; }
@@ -347,7 +351,7 @@
             <a href="#inicio">Inicio</a>
             <a href="#como">Cómo funciona</a>
             <a href="#guardianes">Guardianes</a>
-            <a href="#figuras">Figuras</a>
+            <a href="#figuras">Tienda</a>
             <a href="#app">La app</a>
             <a href="#acerca">Acerca de</a>
             <a href="#contacto">Contacto</a>
@@ -490,17 +494,36 @@
         </div>
     </section>
 
-    {{-- ====== FIGURAS DESTACADAS (luego saldrán de la tabla productos) ====== --}}
+    {{-- ====== TIENDA (productos reales de la base de datos) ====== --}}
     <section id="figuras">
         <div class="cont">
-            <h2 class="tit rev">Figuras destacadas</h2>
-            <p class="sub rev">Lleva a tu guardián favorito a casa. Muy pronto en la tienda.</p>
-            <div class="figuras">
-                <div class="fig rev" style="--d:0s"><div class="peana"><svg viewBox="0 0 120 120"><use href="#g-musguin"/></svg></div><h3>Figura Musguín</h3><span class="etiqueta">Próximamente</span></div>
-                <div class="fig rev" style="--d:.1s"><div class="peana"><svg viewBox="0 0 120 120"><use href="#g-goti"/></svg></div><h3>Figura Goti</h3><span class="etiqueta">Próximamente</span></div>
-                <div class="fig rev" style="--d:.2s"><div class="peana"><svg viewBox="0 0 120 120"><use href="#g-lumi"/></svg></div><h3>Figura Lumi</h3><span class="etiqueta">Próximamente</span></div>
-                <div class="fig rev" style="--d:.3s"><div class="peana"><svg viewBox="0 0 120 120"><use href="#g-tronqui"/></svg></div><h3>Figura Tronqui</h3><span class="etiqueta">Próximamente</span></div>
-            </div>
+            <h2 class="tit rev">Tienda de guardianes</h2>
+            <p class="sub rev">Lleva a tu guardián favorito a casa.</p>
+
+            @if ($destacados->isEmpty())
+                <p class="sub rev">Estamos preparando los primeros productos.</p>
+            @else
+                <div class="figuras">
+                    @foreach ($destacados as $p)
+                        <article class="fig rev" style="--d:{{ $loop->index * .1 }}s">
+                            <div class="peana peana-img">
+                                @if ($p->imagen)
+                                    <img src="{{ asset($p->imagen) }}" alt="{{ $p->nombre }}" loading="lazy">
+                                @else
+                                    <span class="inicial">{{ mb_substr($p->guardian ?? $p->nombre, 0, 1) }}</span>
+                                @endif
+                            </div>
+                            <h3>{{ $p->nombre }}</h3>
+                            <p class="precio-l">${{ number_format($p->precio, 2) }}</p>
+                            <a class="btn" href="{{ route('tienda') }}">Ver en la tienda</a>
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+
+            <p style="text-align:center;margin-top:2rem">
+                <a class="btn btn-verde" href="{{ route('tienda') }}">Ver toda la tienda</a>
+            </p>
         </div>
     </section>
 
