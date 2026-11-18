@@ -32,7 +32,7 @@ Route::get('/', function () {
 })->name('inicio');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
-Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->middleware(['guest', 'throttle:login']);
 Route::get('/registro', [AuthController::class, 'showRegistro'])->name('registro')->middleware('guest');
 Route::post('/registro', [AuthController::class, 'registro'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -82,7 +82,7 @@ Route::middleware(['auth', 'rol:cliente'])->group(function () {
     Route::post('/carrito/{producto}', [TiendaController::class, 'agregar'])->name('tienda.agregar');
     Route::patch('/carrito/{producto}', [TiendaController::class, 'actualizar'])->name('tienda.actualizar');
     Route::delete('/carrito/{producto}', [TiendaController::class, 'quitar'])->name('tienda.quitar');
-    Route::post('/pedido', [TiendaController::class, 'confirmar'])->name('tienda.confirmar');
+    Route::post('/pedido', [TiendaController::class, 'confirmar'])->middleware('throttle:10,1')->name('tienda.confirmar');
     Route::get('/mis-pedidos', [TiendaController::class, 'pedidos'])->name('tienda.pedidos');
     Route::get('/mis-pedidos/{venta}', [TiendaController::class, 'pedido'])->name('tienda.pedido');
 });

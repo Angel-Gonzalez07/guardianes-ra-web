@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -74,7 +75,7 @@ class AuthController extends Controller
         $datos = $request->validate([
             'name'     => ['required', 'string', 'min:3', 'max:100', 'regex:/^[\pL\s.\'\-]+$/u'],
             'email'    => ['required', 'string', 'max:150', 'regex:/^[A-Za-z0-9._%+\-]+@utcv\.edu\.mx$/i', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'max:50', 'confirmed'],
+            'password' => ['required', 'string', 'max:50', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
         ], [
             'name.required'      => 'El nombre es obligatorio.',
             'name.min'           => 'El nombre debe tener al menos 3 caracteres.',
@@ -86,6 +87,9 @@ class AuthController extends Controller
             'email.unique'       => 'Ese correo ya está registrado.',
             'password.required'  => 'La contraseña es obligatoria.',
             'password.min'       => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.letters'   => 'La contraseña debe incluir al menos una letra.',
+            'password.mixed'     => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers'   => 'La contraseña debe incluir al menos un número.',
             'password.max'       => 'La contraseña no puede pasar de 50 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);

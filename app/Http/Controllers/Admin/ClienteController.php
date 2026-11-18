@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class ClienteController extends Controller
 {
@@ -105,7 +106,7 @@ class ClienteController extends Controller
             'email'    => ['required', 'string', 'max:150',
                            'regex:/^[A-Za-z0-9._%+\-]+@utcv\.edu\.mx$/i',
                            Rule::unique('users', 'email')->ignore($cliente?->id)],
-            'password' => [$cliente ? 'nullable' : 'required', 'string', 'min:8', 'max:50', 'confirmed'],
+            'password' => [$cliente ? 'nullable' : 'required', 'string', 'max:50', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
         ], [
             'name.required'      => 'El nombre es obligatorio.',
             'name.min'           => 'El nombre debe tener al menos 3 caracteres.',
@@ -117,6 +118,9 @@ class ClienteController extends Controller
             'email.unique'       => 'Ese correo ya está registrado.',
             'password.required'  => 'La contraseña es obligatoria.',
             'password.min'       => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.letters'   => 'La contraseña debe incluir al menos una letra.',
+            'password.mixed'     => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers'   => 'La contraseña debe incluir al menos un número.',
             'password.max'       => 'La contraseña no puede pasar de 50 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
