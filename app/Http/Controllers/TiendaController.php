@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
-use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Http\Request;
@@ -48,12 +47,12 @@ class TiendaController extends Controller
     public function carrito()
     {
         $items = $this->itemsCarrito();
-        $cliente = Cliente::where('user_id', auth()->id())->first();
+        
 
         return view('tienda.carrito', [
             'items'     => $items,
             'total'     => $items->sum('subtotal'),
-            'direccion' => ($cliente && $cliente->direccion) ? trim($cliente->direccion . ', ' . $cliente->ciudad, ', ') : '',
+            'direccion' => '',
             'metodos'   => Venta::METODOS,
         ]);
     }

@@ -7,7 +7,7 @@
 
 <div class="adm-barra">
     <form class="adm-buscar" method="GET" action="{{ route('admin.clientes.index') }}">
-        <input type="text" name="q" value="{{ $q }}" placeholder="Buscar por nombre, teléfono, ciudad, estado, CP o correo" maxlength="80" style="min-width:300px">
+        <input type="text" name="q" value="{{ $q }}" placeholder="Buscar por nombre o correo" maxlength="80" style="min-width:300px">
         <input type="hidden" name="dir" value="{{ $dir }}">
         <button class="adm-btn" type="submit">Buscar</button>
         @if ($q !== '')
@@ -15,8 +15,8 @@
         @endif
     </form>
     <div>
-        <a class="adm-btn sec" href="{{ route('admin.dashboard') }}">← Panel</a>
-        <a class="adm-btn" href="{{ route('admin.clientes.create') }}">+ Nuevo cliente</a>
+        <a class="adm-btn sec" href="{{ route('admin.dashboard') }}">Panel</a>
+        <a class="adm-btn" href="{{ route('admin.clientes.create') }}">Nuevo cliente</a>
     </div>
 </div>
 
@@ -29,11 +29,9 @@
                         Cliente {{ $dir === 'asc' ? '▲' : '▼' }}
                     </a>
                 </th>
-                <th>Cuenta</th>
-                <th>Teléfono</th>
-                <th>Ciudad</th>
-                <th>Estado</th>
-                <th>CP</th>
+                <th>Correo</th>
+                <th>Pedidos</th>
+                <th>Registro</th>
                 <th>Activo</th>
                 <th>Acciones</th>
             </tr>
@@ -41,12 +39,10 @@
         <tbody>
             @forelse ($clientes as $c)
                 <tr>
-                    <td><strong>{{ $c->apellidos }}, {{ $c->nombre }}</strong></td>
-                    <td>{{ $c->user->email ?? 'Sin cuenta' }}</td>
-                    <td>{{ $c->telefono }}</td>
-                    <td>{{ $c->ciudad }}</td>
-                    <td>{{ $c->estado }}</td>
-                    <td>{{ $c->codigo_postal }}</td>
+                    <td><strong>{{ $c->name }}</strong></td>
+                    <td>{{ $c->email }}</td>
+                    <td>{{ $c->ventas_count }}</td>
+                    <td>{{ $c->created_at?->format('d/m/Y') }}</td>
                     <td>
                         <span class="adm-badge {{ $c->activo ? 'si' : 'no' }}">{{ $c->activo ? 'Sí' : 'No' }}</span>
                     </td>
@@ -55,7 +51,7 @@
                             <a class="adm-btn chico sec" href="{{ route('admin.clientes.edit', $c) }}">Editar</a>
                             @if (auth()->user()->esAdmin())
                             <form method="POST" action="{{ route('admin.clientes.destroy', $c) }}"
-                                  onsubmit="return confirm('¿Eliminar al cliente {{ addslashes($c->nombre . ' ' . $c->apellidos) }}?');">
+                                  onsubmit="return confirm('¿Eliminar al cliente {{ addslashes($c->name) }}?');">
                                 @csrf
                                 @method('DELETE')
                                 <button class="adm-btn chico rojo" type="submit">Eliminar</button>
@@ -65,7 +61,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="8" class="adm-vacio">No hay clientes{{ $q !== '' ? ' que coincidan con la búsqueda' : '' }}.</td></tr>
+                <tr><td colspan="6" class="adm-vacio">No hay clientes{{ $q !== '' ? ' que coincidan con la búsqueda' : '' }}.</td></tr>
             @endforelse
         </tbody>
     </table>
@@ -74,11 +70,11 @@
 @if ($clientes->hasPages())
     <div class="adm-pag">
         @if ($clientes->previousPageUrl())
-            <a class="adm-btn chico sec" href="{{ $clientes->previousPageUrl() }}">← Anterior</a>
+            <a class="adm-btn chico sec" href="{{ $clientes->previousPageUrl() }}">Anterior</a>
         @endif
         <span>Página {{ $clientes->currentPage() }} de {{ $clientes->lastPage() }}</span>
         @if ($clientes->nextPageUrl())
-            <a class="adm-btn chico sec" href="{{ $clientes->nextPageUrl() }}">Siguiente →</a>
+            <a class="adm-btn chico sec" href="{{ $clientes->nextPageUrl() }}">Siguiente</a>
         @endif
     </div>
 @endif

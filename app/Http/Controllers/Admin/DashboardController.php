@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categoria;
-use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use App\Models\User;
@@ -20,7 +19,7 @@ class DashboardController extends Controller
             'categorias'  => ['total' => Categoria::count(),  'activos' => Categoria::where('activo', true)->count()],
             'productos'   => ['total' => Producto::count(),   'activos' => Producto::where('activo', true)->count()],
             'proveedores' => ['total' => Proveedor::count(),  'activos' => Proveedor::where('activo', true)->count()],
-            'clientes'    => ['total' => Cliente::count(),    'activos' => Cliente::where('activo', true)->count()],
+            'clientes'    => ['total' => User::whereHas('role', fn ($r) => $r->where('nombre', 'cliente'))->count(), 'activos' => User::where('activo', true)->whereHas('role', fn ($r) => $r->where('nombre', 'cliente'))->count()],
             'usuarios'    => ['total' => User::count(),       'activos' => User::where('activo', true)->count()],
         ];
 

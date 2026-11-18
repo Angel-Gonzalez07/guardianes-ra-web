@@ -86,12 +86,7 @@ class UsuarioController extends Controller
                 ->withErrors(['No puedes eliminar tu propia cuenta.']);
         }
 
-        $tieneCliente = DB::table('clientes')->where('user_id', $usuario->id)->exists();
-
-        if ($tieneCliente) {
-            return redirect()->route('admin.usuarios.index')
-                ->withErrors(['No se puede eliminar a «' . $usuario->name . '» porque tiene un cliente enlazado. Elimina o cambia ese cliente primero.']);
-        }
+        
 
        if ($usuario->ventas()->exists()) {
             return redirect()->route('admin.usuarios.index')

@@ -13,50 +13,23 @@
             @method('PUT')
         @endif
 
-        <label for="user_id">Cuenta de usuario (opcional)</label>
-        <select id="user_id" name="user_id">
-            <option value="">— Sin cuenta —</option>
-            @foreach ($cuentas as $u)
-                <option value="{{ $u->id }}" @selected(old('user_id', $cliente->user_id) == $u->id)>
-                    {{ $u->email }} ({{ $u->name }})
-                </option>
-            @endforeach
-        </select>
-        <small style="color:#7a6a60">Solo aparecen cuentas de cliente que todavía no están enlazadas.</small>
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" name="name" value="{{ old('name', $cliente->name) }}"
+               required minlength="3" maxlength="100">
 
-        <label for="nombre">Nombre(s)</label>
-        <input type="text" id="nombre" name="nombre" value="{{ old('nombre', $cliente->nombre) }}"
-               required minlength="2" maxlength="100">
+        <label for="email">Correo institucional</label>
+        <input type="email" id="email" name="email" value="{{ old('email', $cliente->email) }}"
+               required maxlength="150" placeholder="usuario@utcv.edu.mx"
+               pattern="[A-Za-z0-9._%+\-]+@[Uu][Tt][Cc][Vv]\.[Ee][Dd][Uu]\.[Mm][Xx]"
+               title="Debe terminar en @utcv.edu.mx">
 
-        <label for="apellidos">Apellidos</label>
-        <input type="text" id="apellidos" name="apellidos" value="{{ old('apellidos', $cliente->apellidos) }}"
-               required minlength="2" maxlength="100">
+        <label for="password">Contraseña{{ $cliente->exists ? ' (déjala vacía para no cambiarla)' : '' }}</label>
+        <input type="password" id="password" name="password"
+               {{ $cliente->exists ? '' : 'required' }} minlength="8" maxlength="50" autocomplete="new-password">
 
-        <label for="telefono">Teléfono (10 dígitos)</label>
-        <input type="text" id="telefono" name="telefono" value="{{ old('telefono', $cliente->telefono) }}"
-               required inputmode="numeric" pattern="[0-9]{10}" minlength="10" maxlength="10"
-               title="Exactamente 10 dígitos, sin espacios ni guiones">
-
-        <label for="direccion">Dirección</label>
-        <input type="text" id="direccion" name="direccion" value="{{ old('direccion', $cliente->direccion) }}"
-               required minlength="5" maxlength="200" placeholder="Calle, número y colonia">
-
-        <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" value="{{ old('ciudad', $cliente->ciudad) }}"
-               required minlength="2" maxlength="80">
-
-        <label for="estado">Estado</label>
-        <select id="estado" name="estado" required>
-            <option value="">— Elige un estado —</option>
-            @foreach ($estados as $e)
-                <option value="{{ $e }}" @selected(old('estado', $cliente->estado) === $e)>{{ $e }}</option>
-            @endforeach
-        </select>
-
-        <label for="codigo_postal">Código postal (5 dígitos)</label>
-        <input type="text" id="codigo_postal" name="codigo_postal" value="{{ old('codigo_postal', $cliente->codigo_postal) }}"
-               required inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5"
-               title="Exactamente 5 dígitos">
+        <label for="password_confirmation">Confirmar contraseña</label>
+        <input type="password" id="password_confirmation" name="password_confirmation"
+               {{ $cliente->exists ? '' : 'required' }} minlength="8" maxlength="50" autocomplete="new-password">
 
         <label class="check">
             <input type="hidden" name="activo" value="0">
