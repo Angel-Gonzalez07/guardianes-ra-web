@@ -19,7 +19,7 @@ class RolesYAdminSeeder extends Seeder
 
         DB::table('users')->insert([
             'name'       => 'Administrador',
-            'email'      => 'admin@utcv.edu.mx',
+            'email'      => 'caejastudio@utcv.edu.mx',
             'password'   => Hash::make('Admin12345'),
             'role_id'    => $adminId,
             'activo'     => true,
