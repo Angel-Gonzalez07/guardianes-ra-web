@@ -17,20 +17,24 @@
 
 <div class="reg-caja">
     <h1>Crear cuenta</h1>
-    <p class="sub">Regístrate con tu correo institucional.</p>
+    <p class="sub">Crea Tu Cuenta Para Comprar Productos De Los Guardianes</p>
 
     <form method="POST" action="{{ route('registro') }}">
         @csrf
 
-        <label for="name">Nombre completo</label>
-        <input type="text" id="name" name="name" value="{{ old('name') }}" required minlength="3" maxlength="100"
-               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü .'\-]+" title="Solo letras, espacios, puntos, apóstrofes y guiones">
+        <label for="nombres">Nombre(s)</label>
+        <input type="text" id="nombres" name="nombres" value="{{ old('nombres') }}" required minlength="2" maxlength="60"
+               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+([ '\-][A-Za-zÁÉÍÓÚáéíóúÑñÜü]+)*" title="Solo letras y un espacio entre palabras">
+        <small>Ejemplo: María José</small>
 
-        <label for="email">Correo institucional</label>
+        <label for="apellidos">Apellidos</label>
+        <input type="text" id="apellidos" name="apellidos" value="{{ old('apellidos') }}" required minlength="2" maxlength="60"
+               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+([ '\-][A-Za-zÁÉÍÓÚáéíóúÑñÜü]+)*" title="Solo letras y un espacio entre palabras">
+        <small>Ejemplo: Pérez López</small>
+
+        <label for="email">Correo electrónico</label>
         <input type="email" id="email" name="email" value="{{ old('email') }}" required maxlength="150"
-               placeholder="usuario@utcv.edu.mx" pattern="[A-Za-z0-9._%+\-]+@[uU][tT][cC][vV]\.[eE][dD][uU]\.[mM][xX]"
-               title="Debe ser un correo @utcv.edu.mx">
-        <small>Solo correos @utcv.edu.mx</small>
+               placeholder="correo@ejemplo.com">
 
         <label for="password">Contraseña</label>
         <input type="password" id="password" name="password" required minlength="8" maxlength="50">

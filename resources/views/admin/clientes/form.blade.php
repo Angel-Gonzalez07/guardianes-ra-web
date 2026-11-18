@@ -13,15 +13,19 @@
             @method('PUT')
         @endif
 
-        <label for="name">Nombre completo</label>
-        <input type="text" id="name" name="name" value="{{ old('name', $cliente->name) }}"
-               required minlength="3" maxlength="100">
+        <label for="nombres">Nombre(s)</label>
+        <input type="text" id="nombres" name="nombres" value="{{ old('nombres', $cliente->nombres) }}"
+               required minlength="2" maxlength="60"
+               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+([ '\-][A-Za-zÁÉÍÓÚáéíóúÑñÜü]+)*" title="Solo letras y un espacio entre palabras">
 
-        <label for="email">Correo institucional</label>
+        <label for="apellidos">Apellidos</label>
+        <input type="text" id="apellidos" name="apellidos" value="{{ old('apellidos', $cliente->apellidos) }}"
+               required minlength="2" maxlength="60"
+               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+([ '\-][A-Za-zÁÉÍÓÚáéíóúÑñÜü]+)*" title="Solo letras y un espacio entre palabras">
+
+        <label for="email">Correo electrónico</label>
         <input type="email" id="email" name="email" value="{{ old('email', $cliente->email) }}"
-               required maxlength="150" placeholder="usuario@utcv.edu.mx"
-               pattern="[A-Za-z0-9._%+\-]+@[Uu][Tt][Cc][Vv]\.[Ee][Dd][Uu]\.[Mm][Xx]"
-               title="Debe terminar en @utcv.edu.mx">
+               required maxlength="150" placeholder="correo@ejemplo.com">
 
         <label for="password">Contraseña{{ $cliente->exists ? ' (déjala vacía para no cambiarla)' : '' }}</label>
         <input type="password" id="password" name="password"

@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Rules\NombrePersona;
 use Illuminate\Validation\Rules\Password;
 
 class ClienteController extends Controller

@@ -11,9 +11,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class User extends Authenticatable
 {
    use HasFactory, Notifiable;
-    protected $fillable = ['name', 'email', 'password', 'role_id', 'activo'];
+    protected $fillable = ['name', 'nombres', 'apellidos', 'email', 'password', 'role_id', 'activo'];
 
     protected $hidden = ['password', 'remember_token'];
+
+    
+    // El campo "name" se arma solo con nombres + apellidos
+    protected static function booted(): void
+    {
+        static::saving(function (User $usuario) {
+            if ($usuario->nombres !== null) {
+                $usuario->name = trim($usuario->nombres . ' ' . $usuario->apellidos);
+            }
+        });
+    }
 
     protected function casts(): array
     {
