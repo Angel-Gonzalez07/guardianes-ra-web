@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Rules\NombrePersona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -16,41 +15,43 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
-    {
-        $request->merge(['email' => strtolower(trim((string) $request->input('email')))]);
+   public function login(Request $request)
+   {
+       $datos = $request->validate([
+           'email' => ['required', 'max:100', 'regex:/^[A-Za-z0-9._%+\-]+@utcv\.edu\.mx$/i'],
+           'password' => ['required', 'string', 'min:8', 'max:50'],
+       ], [
+           'email.required' => 'El correo es obligatorio.',
+           'email.max' => 'El correo no puede pasar de 100 caracteres.',
+           'email.regex' => 'Solo se permiten correos institucionales @utcv.edu.mx.',
+           'password.required' => 'La contraseña es obligatoria.',
+           'password.min' => 'La contraseña debe tener mínimo 8 caracteres.',
+           'password.max' => 'La contraseña no puede pasar de 50 caracteres.',
+       ]);
 
-        $datos = $request->validate([
-            'email'    => ['required', 'string', 'email', 'max:150'],
-            'password' => ['required', 'string', 'min:8', 'max:50'],
-        ], [
-            'email.required'    => 'El correo es obligatorio.',
-            'email.email'       => 'Escribe un correo válido.',
-            'email.max'         => 'El correo no puede pasar de 150 caracteres.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.min'      => 'La contraseña debe tener mínimo 8 caracteres.',
-            'password.max'      => 'La contraseña no puede pasar de 50 caracteres.',
-        ]);
+       $datos['email'] = strtolower($datos['email']);
 
-        $entro = Auth::attempt([
-            'email'    => $datos['email'],
-            'password' => $datos['password'],
-            'activo'   => true,
-        ]);
+       $entro = Auth::attempt([
+           'email' => $datos['email'],
+           'password' => $datos['password'],
+           'activo' => true,
+       ]);
 
-        if (! $entro) {
-            return back()
-                ->withInput($request->only('email'))
-                ->withErrors(['email' => 'Correo o contraseña incorrectos, o la cuenta está inactiva.']);
-        }
+       if (!$entro) {
+           return back()
+               ->withInput($request->only('email'))
+               ->withErrors(['email' => 'Correo o contraseña incorrectos, o la cuenta está inactiva.']);
+       }
 
-        $request->session()->regenerate();
+       $request->session()->regenerate();
 
-        $destino = Auth::user()->esPersonal() ? 'admin.dashboard' : 'tienda';
+        /** @var \App\Models\User $usuario */
+        $usuario = Auth::user();
+        $destino = $usuario->esPersonal() ? 'admin.dashboard' : 'tienda';
 
-        return redirect()->route($destino)
-            ->with('exito', 'Bienvenido, ' . Auth::user()->name . '.');
-    }
+       return redirect()->route($destino)
+           ->with('exito', 'Bienvenido, ' . Auth::user()->name . '.');
+   }
 
     public function logout(Request $request)
     {
@@ -61,35 +62,30 @@ class AuthController extends Controller
         return redirect()->route('inicio')->with('exito', 'Sesión cerrada correctamente.');
     }
 
-    public function showRegistro()
+        public function showRegistro()
     {
         return view('auth.registro');
     }
 
-    // Los clientes se registran con cualquier correo válido.
     public function registro(Request $request)
     {
         $request->merge([
-            'nombres'   => NombrePersona::limpiar($request->input('nombres')),
-            'apellidos' => NombrePersona::limpiar($request->input('apellidos')),
-            'email'     => strtolower(trim((string) $request->input('email'))),
+            'name'  => trim((string) $request->input('name')),
+            'email' => strtolower(trim((string) $request->input('email'))),
         ]);
 
         $datos = $request->validate([
-            'nombres'   => ['required', 'string', 'min:2', 'max:60', new NombrePersona(3)],
-            'apellidos' => ['required', 'string', 'min:2', 'max:60', new NombrePersona(3)],
-            'email'     => ['required', 'string', 'email', 'max:150', 'unique:users,email'],
-            'password'  => ['required', 'string', 'max:50', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
+            'name'     => ['required', 'string', 'min:3', 'max:100', 'regex:/^[\pL\s.\'\-]+$/u'],
+            'email'    => ['required', 'string', 'max:150', 'regex:/^[A-Za-z0-9._%+\-]+@utcv\.edu\.mx$/i', 'unique:users,email'],
+            'password' => ['required', 'string', 'max:50', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()],
         ], [
-            'nombres.required'   => 'El nombre o nombres son obligatorios.',
-            'nombres.min'        => 'El nombre debe tener al menos 2 letras.',
-            'nombres.max'        => 'El nombre no puede pasar de 60 caracteres.',
-            'apellidos.required' => 'Los apellidos son obligatorios.',
-            'apellidos.min'      => 'Los apellidos deben tener al menos 2 letras.',
-            'apellidos.max'      => 'Los apellidos no pueden pasar de 60 caracteres.',
+            'name.required'      => 'El nombre es obligatorio.',
+            'name.min'           => 'El nombre debe tener al menos 3 caracteres.',
+            'name.max'           => 'El nombre no puede pasar de 100 caracteres.',
+            'name.regex'         => 'El nombre solo puede llevar letras, espacios, puntos, apóstrofes y guiones.',
             'email.required'     => 'El correo es obligatorio.',
-            'email.email'        => 'Escribe un correo válido.',
             'email.max'          => 'El correo no puede pasar de 150 caracteres.',
+            'email.regex'        => 'Solo se permiten correos @utcv.edu.mx.',
             'email.unique'       => 'Ese correo ya está registrado.',
             'password.required'  => 'La contraseña es obligatoria.',
             'password.min'       => 'La contraseña debe tener al menos 8 caracteres.',
@@ -98,18 +94,14 @@ class AuthController extends Controller
             'password.numbers'   => 'La contraseña debe incluir al menos un número.',
             'password.max'       => 'La contraseña no puede pasar de 50 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
-        ], [
-            'nombres'   => 'nombre(s)',
-            'apellidos' => 'apellidos',
         ]);
 
         $user = User::create([
-            'nombres'   => $datos['nombres'],
-            'apellidos' => $datos['apellidos'],
-            'email'     => $datos['email'],
-            'password'  => $datos['password'],
-            'role_id'   => Role::where('nombre', 'cliente')->value('id'),
-            'activo'    => true,
+            'name'     => $datos['name'],
+            'email'    => $datos['email'],
+            'password' => $datos['password'],
+            'role_id'  => Role::where('nombre', 'cliente')->value('id'),
+            'activo'   => true,
         ]);
 
         Auth::login($user);
