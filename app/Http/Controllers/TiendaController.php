@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class TiendaController extends Controller
 {
@@ -133,10 +134,10 @@ class TiendaController extends Controller
         $dato = session('checkout.envio');
         if (! $dato) {
             // Reutiliza los datos del último pedido, si existe
-            $ultima = Venta::where('user_id', auth()->id())->whereNotNull('calle_numero')->latest()->first();
+            $ultima = Venta::where('user_id', Auth::id())->whereNotNull('calle_numero')->latest()->first();
             $dato = $ultima
                 ? $ultima->only(['destinatario', 'telefono', 'calle_numero', 'colonia', 'codigo_postal', 'ciudad', 'estado_republica', 'referencias'])
-                : ['destinatario' => auth()->user()->name];
+                : ['destinatario' => Auth::user()->name];
         }
 
         return view('tienda.envio', [
@@ -316,7 +317,7 @@ class TiendaController extends Controller
 
                 $venta = Venta::create([
                     'folio'              => 'GRA-' . now()->format('ymd') . '-' . strtoupper(Str::random(5)),
-                    'user_id'            => auth()->id(),
+                    'user_id'            => Auth::id(),
                     'subtotal'           => $subtotal,
                     'costo_envio'        => $costoEnvio,
                     'total'              => round($subtotal + $costoEnvio, 2),
@@ -355,7 +356,7 @@ class TiendaController extends Controller
 
     public function pedidos()
     {
-        $pedidos = Venta::where('user_id', auth()->id())
+        $pedidos = Venta::where('user_id', Auth::id())
             ->withCount('detalles')
             ->latest()
             ->paginate(10);
@@ -366,7 +367,7 @@ class TiendaController extends Controller
     public function pedido(Venta $venta)
     {
         // Un cliente solo puede ver SUS pedidos
-        abort_unless($venta->user_id === auth()->id(), 404);
+        abort_unless($venta->user_id === Auth::id(), 404);
 
         $venta->load('detalles');
 
@@ -376,7 +377,7 @@ class TiendaController extends Controller
     // El cliente puede cancelar mientras el pedido siga pendiente
     public function cancelar(Venta $venta)
     {
-        abort_unless($venta->user_id === auth()->id(), 404);
+        abort_unless($venta->user_id === Auth::id(), 404);
 
         try {
             DB::transaction(function () use ($venta) {
