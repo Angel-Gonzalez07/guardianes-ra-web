@@ -50,13 +50,19 @@ class VentaController extends Controller
         ]);
     }
 
-    public function estado(Request $request, Venta $venta)
+        public function estado(Request $request, Venta $venta)
     {
         $datos = $request->validate([
-            'estado' => ['required', Rule::in(Venta::ESTADOS)],
+            'estado'      => ['required', Rule::in(Venta::ESTADOS)],
+            'paqueteria'  => ['nullable', 'required_if:estado,enviada', Rule::in(config('tienda.paqueterias'))],
+            'numero_guia' => ['nullable', 'required_if:estado,enviada', 'string', 'max:40', 'regex:/^[A-Za-z0-9\-]+$/'],
         ], [
-            'estado.required' => 'Elige un estado.',
-            'estado.in'       => 'El estado elegido no es válido.',
+            'estado.required'          => 'Elige un estado.',
+            'estado.in'                => 'El estado elegido no es válido.',
+            'paqueteria.required_if'   => 'Indica la paquetería para marcar el pedido como enviado.',
+            'paqueteria.in'            => 'Elige una paquetería de la lista.',
+            'numero_guia.required_if'  => 'Indica el número de guía para marcar el pedido como enviado.',
+            'numero_guia.regex'        => 'La guía solo puede llevar letras, números y guiones.',
         ]);
 
         $permitidos = Venta::TRANSICIONES[$venta->estado] ?? [];
@@ -71,9 +77,20 @@ class VentaController extends Controller
                     Producto::where('id', $d->producto_id)->increment('stock', $d->cantidad);
                 }
             }
-            $venta->update(['estado' => $datos['estado']]);
+
+            $campos = ['estado' => $datos['estado']];
+            $fechas = ['pagada' => 'pagada_at', 'enviada' => 'enviada_at', 'entregada' => 'entregada_at', 'cancelada' => 'cancelada_at'];
+            $campos[$fechas[$datos['estado']]] = now();
+
+            if ($datos['estado'] === 'enviada') {
+                $campos['paqueteria'] = $datos['paqueteria'];
+                $campos['numero_guia'] = $datos['numero_guia'];
+            }
+
+            $venta->update($campos);
         });
 
         return back()->with('exito', 'Pedido ' . $venta->folio . ' actualizado a «' . $datos['estado'] . '».');
     }
 }
+

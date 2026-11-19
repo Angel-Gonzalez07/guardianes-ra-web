@@ -85,4 +85,10 @@ Route::middleware(['auth', 'rol:cliente'])->group(function () {
     Route::post('/pedido', [TiendaController::class, 'confirmar'])->middleware('throttle:10,1')->name('tienda.confirmar');
     Route::get('/mis-pedidos', [TiendaController::class, 'pedidos'])->name('tienda.pedidos');
     Route::get('/mis-pedidos/{venta}', [TiendaController::class, 'pedido'])->name('tienda.pedido');
+    Route::get('/checkout/envio', [TiendaController::class, 'envio'])->name('tienda.envio');
+    Route::post('/checkout/envio', [TiendaController::class, 'guardarEnvio'])->name('tienda.envio.guardar');
+    Route::get('/checkout/pago', [TiendaController::class, 'pago'])->name('tienda.pago');
+    Route::post('/checkout/pago', [TiendaController::class, 'guardarPago'])->name('tienda.pago.guardar');
+    Route::get('/checkout/revision', [TiendaController::class, 'revision'])->name('tienda.revision');
+    Route::post('/mis-pedidos/{venta}/cancelar', [TiendaController::class, 'cancelar'])->name('tienda.cancelar');
 });
