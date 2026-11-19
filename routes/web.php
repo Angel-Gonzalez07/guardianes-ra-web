@@ -36,7 +36,7 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware(['guest', 'throttle:login']);
 Route::get('/registro', [AuthController::class, 'showRegistro'])->name('registro')->middleware('guest');
-Route::post('/registro', [AuthController::class, 'registro'])->middleware('guest');
+Route::post('/registro', [AuthController::class, 'registro'])->middleware(['guest', 'throttle:registro']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Admin y empleado: ver, crear y editar (sin eliminar)
@@ -58,7 +58,7 @@ Route::middleware(['auth', 'rol:admin,empleado'])->prefix('admin')->group(functi
     // Proveedores: ficha y exportación (lectura para admin y empleado)
     Route::get('/proveedores/exportar', [ProveedorController::class, 'exportar'])->name('admin.proveedores.exportar');
     Route::get('/proveedores/{proveedor}', [ProveedorController::class, 'show'])->whereNumber('proveedor')->name('admin.proveedores.show');   
-     
+
     // Ventas: consultar y cambiar el estado
     Route::get('/ventas', [VentaController::class, 'index'])->name('admin.ventas.index');
     Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('admin.ventas.show');

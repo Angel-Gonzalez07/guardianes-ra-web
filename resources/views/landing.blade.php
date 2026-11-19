@@ -397,7 +397,7 @@
             <div>
                 <span class="insignia entra"> App de Realidad Aumentada</span>
                 <h1 class="entra" style="animation-delay:.1s">Conoce a tu <span>Guardián</span></h1>
-                <p class="entra" style="animation-delay:.25s">Apunta tu cámara a un objeto de todos los días y mira cómo <strong>Musguín, Goti, Lumi y Tronqui</strong> aparecen en 3D para contarte cómo cuidar el planeta.</p>
+                <p class="entra" style="animation-delay:.25s">Apunta tu cámara a un objeto de todos los días y mira cómo <strong>Goti, Lumi y Tronqui</strong> aparecen en 3D para contarte cómo cuidar el planeta.</p>
                 <div class="btns entra" style="animation-delay:.4s">
                     @guest
                         <a href="{{ Route::has('registro') ? route('registro') : '#' }}" class="btn">Crear mi cuenta</a>
@@ -428,7 +428,7 @@
                 <span class="num">2</span>
                 <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="1" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="23" y2="12"/></svg></span>
                 <h3>Apunta a tu objeto</h3>
-                <p>Enfoca una taza, una mini linterna, una grapadora o una calculadora científica. Cada objeto pertenece a un guardián.</p>
+                <p>Descarga los Targets que vienen en la app para poder visualizar los Guardianes y sus Consejos.</p>
             </div>
 
             <div class="paso">
@@ -537,12 +537,11 @@
                     <span class="chip"> Android 7.0 o superior</span>
                     <span class="chip"> Realidad Aumentada</span>
                     <span class="chip"> Sin registro</span>
-                    <span class="chip"> 4 guardianes en 3D</span>
+                    <span class="chip"> 3 guardianes en 3D</span>
                 </div>
                 <span class="btn btn-off" aria-disabled="true">Descarga disponible próximamente</span>
             </div>
             <div class="coro rev" style="--d:.15s">
-                <div class="fl"><svg viewBox="0 0 120 120"><use href="#g-musguin"/></svg></div>
                 <div class="fl" style="animation-delay:-.7s"><svg viewBox="0 0 120 120"><use href="#g-goti"/></svg></div>
                 <div class="fl" style="animation-delay:-1.4s"><svg viewBox="0 0 120 120"><use href="#g-lumi"/></svg></div>
                 <div class="fl" style="animation-delay:-2.1s"><svg viewBox="0 0 120 120"><use href="#g-tronqui"/></svg></div>

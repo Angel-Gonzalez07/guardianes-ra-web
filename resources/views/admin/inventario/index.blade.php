@@ -1,4 +1,4 @@
-s@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('contenido')
 @include('admin._estilos')

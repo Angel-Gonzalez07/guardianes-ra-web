@@ -22,7 +22,6 @@ class TiendaDemoSeeder extends Seeder
 
         // Precios de ejemplo: cámbialos desde el catálogo de Productos.
         $productos = [
-            ['FIG-MUS-001', 'Figura Musguín', 'Musguín', 349.00],
             ['FIG-GOT-001', 'Figura Goti',    'Goti',    349.00],
             ['FIG-LUM-001', 'Figura Lumi',    'Lumi',    349.00],
             ['FIG-TRO-001', 'Figura Tronqui', 'Tronqui', 399.00],

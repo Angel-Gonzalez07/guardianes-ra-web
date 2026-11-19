@@ -16,15 +16,9 @@
                 <legend style="font-weight:800;margin-bottom:.4rem">Método de pago *</legend>
 
                 <label style="display:flex;gap:.7rem;align-items:flex-start;font-weight:600;margin:.4rem 0;padding:.8rem;border:2px solid var(--menta);border-radius:14px;cursor:pointer">
-                    <input type="radio" name="metodo_pago" value="Transferencia" style="width:auto;margin-top:.3rem" @checked(old('metodo_pago', $metodo) === 'Transferencia') required>
+                    <input type="radio" name="metodo_pago" value="Transferencia" style="width:auto;margin-top:.3rem" checked>
                     <span><strong>Transferencia</strong><br>
                         Al terminar tu pedido verás los datos de la cuenta. Haz la transferencia con tu folio como concepto.</span>
-                </label>
-
-                <label style="display:flex;gap:.7rem;align-items:flex-start;font-weight:600;margin:.4rem 0;padding:.8rem;border:2px solid var(--menta);border-radius:14px;cursor:pointer">
-                    <input type="radio" name="metodo_pago" value="Pago contra entrega" style="width:auto;margin-top:.3rem" @checked(old('metodo_pago', $metodo) === 'Pago contra entrega')>
-                    <span><strong>Pago contra entrega</strong><br>
-                        Pagas en efectivo al recibir tu pedido. El personal confirmará tu pedido antes de enviarlo.</span>
                 </label>
             </fieldset>
 

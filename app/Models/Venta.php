@@ -14,7 +14,7 @@ class Venta extends Model
     // Estados que cuentan como dinero cobrado
     public const CONFIRMADAS = ['pagada', 'enviada', 'entregada'];
 
-    public const METODOS = ['Transferencia', 'Pago contra entrega'];
+    public const METODOS = ['Transferencia'];
 
     // Cambios de estado permitidos
     public const TRANSICIONES = [

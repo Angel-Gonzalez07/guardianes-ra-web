@@ -14,7 +14,7 @@ use App\Support\Inventario;
 
 class ProductoController extends Controller
 {
-    private const GUARDIANES = ['Musguín', 'Goti', 'Lumi', 'Tronqui'];
+    private const GUARDIANES = ['Goti', 'Lumi', 'Tronqui'];
 
     public function index(Request $request)
     {
