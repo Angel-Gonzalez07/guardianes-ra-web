@@ -12,6 +12,8 @@
             'clientes'    => 'Clientes',
             'usuarios'    => 'Usuarios',
             'ventas'      => 'Ventas',
+            'compras'     => 'Compras a proveedores',
+            'inventario'  => 'Inventario',
         ];
         $tituloPagina = $titulos[request()->segment(2)] ?? 'Administración';
 
@@ -115,19 +117,16 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true">{!! $icoPanel !!}</svg>Panel de control
             </a>
 
-            @if (Route::has('admin.ventas.index'))
             <p class="menu-tit">Operación</p>
             <a class="menu-item {{ request()->routeIs('admin.ventas.*') ? 'activo' : '' }}" href="{{ route('admin.ventas.index') }}">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Ventas
             </a>
-            @endif
-
-            <p class="menu-tit">Catálogos</p>
-            @foreach ($catalogos as $c)
-                <a class="menu-item {{ request()->routeIs($c[0]) ? 'activo' : '' }}" href="{{ route($c[1]) }}">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">{!! $c[3] !!}</svg>{{ $c[2] }}
-                </a>
-            @endforeach
+            <a class="menu-item {{ request()->routeIs('admin.compras.*') ? 'activo' : '' }}" href="{{ route('admin.compras.index') }}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>Compras
+            </a>
+            <a class="menu-item {{ request()->routeIs('admin.inventario.*') ? 'activo' : '' }}" href="{{ route('admin.inventario.index') }}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Inventario
+            </a>
         </nav>
 
         <div class="lateral-pie">

@@ -8,6 +8,7 @@ use App\Models\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use App\Support\Inventario;
 
 class VentaController extends Controller
 {
@@ -74,7 +75,7 @@ class VentaController extends Controller
         DB::transaction(function () use ($venta, $datos) {
             if ($datos['estado'] === 'cancelada') {
                 foreach ($venta->detalles as $d) {
-                    Producto::where('id', $d->producto_id)->increment('stock', $d->cantidad);
+                    Producto::where('id', $d->producto_id)->Inventario::mover($d->producto_id, $d->cantidad, 'cancelacion', $venta->folio);
                 }
             }
 

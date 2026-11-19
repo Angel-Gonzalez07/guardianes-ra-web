@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Support\Inventario;
 
 class ProductoController extends Controller
 {
@@ -48,7 +49,8 @@ class ProductoController extends Controller
         $datos = $this->validar($request);
         $datos['imagen'] = $this->guardarImagen($request, $datos['sku']);
 
-        Producto::create($datos);
+        $producto = Producto::create($datos);
+        Inventario::registrar($producto, (int) $producto->stock, 'inventario_inicial', $producto->sku);
 
         return redirect()->route('admin.productos.index')
             ->with('exito', 'Producto creado correctamente.');
@@ -68,7 +70,9 @@ class ProductoController extends Controller
             $datos['imagen'] = $this->guardarImagen($request, $datos['sku']);
         }
 
+        $stockAntes = (int) $producto->stock;
         $producto->update($datos);
+        Inventario::registrar($producto, (int) $producto->stock - $stockAntes, 'ajuste', $producto->sku);   
 
         return redirect()->route('admin.productos.index')
             ->with('exito', 'Producto actualizado correctamente.');

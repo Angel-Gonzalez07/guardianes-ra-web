@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Support\Inventario;
 
 class TiendaController extends Controller
 {
@@ -337,7 +338,7 @@ class TiendaController extends Controller
 
                 foreach ($lineas as $linea) {
                     $venta->detalles()->create($linea);
-                    Producto::where('id', $linea['producto_id'])->decrement('stock', $linea['cantidad']);
+                    Inventario::mover($linea['producto_id'], -$linea['cantidad'], 'venta', $venta->folio);
                 }
 
                 return $venta;
@@ -388,7 +389,7 @@ class TiendaController extends Controller
                 }
 
                 foreach ($actual->detalles as $d) {
-                    Producto::where('id', $d->producto_id)->increment('stock', $d->cantidad);
+                    Inventario::mover($d->producto_id, $d->cantidad, 'cancelacion', $actual->folio);
                 }
                 $actual->update(['estado' => 'cancelada', 'cancelada_at' => now()]);
             });

@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\TiendaController;
 use App\Models\Categoria;
 use App\Models\Producto;
+use App\Http\Controllers\Admin\MovimientoInventarioController;
+use App\Http\Controllers\Admin\OrdenCompraController;
 
 Route::get('/', function () {
     // Categorías con su número de productos disponibles ("próximamente" si no hay)
@@ -52,10 +54,27 @@ Route::middleware(['auth', 'rol:admin,empleado'])->prefix('admin')->group(functi
     Route::resource('proveedores', ProveedorController::class)
         ->parameters(['proveedores' => 'proveedor'])
         ->only(['index'])->names('admin.proveedores');
+    
+    // Proveedores: ficha y exportación (lectura para admin y empleado)
+    Route::get('/proveedores/exportar', [ProveedorController::class, 'exportar'])->name('admin.proveedores.exportar');
+    Route::get('/proveedores/{proveedor}', [ProveedorController::class, 'show'])->whereNumber('proveedor')->name('admin.proveedores.show');   
+     
     // Ventas: consultar y cambiar el estado
     Route::get('/ventas', [VentaController::class, 'index'])->name('admin.ventas.index');
     Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('admin.ventas.show');
     Route::patch('/ventas/{venta}/estado', [VentaController::class, 'estado'])->name('admin.ventas.estado');
+
+    // Compras a proveedores
+    Route::get('/compras', [OrdenCompraController::class, 'index'])->name('admin.compras.index');
+    Route::get('/compras/crear', [OrdenCompraController::class, 'create'])->name('admin.compras.create');
+    Route::post('/compras', [OrdenCompraController::class, 'store'])->name('admin.compras.store');
+    Route::get('/compras/{compra}', [OrdenCompraController::class, 'show'])->whereNumber('compra')->name('admin.compras.show');
+    Route::get('/compras/{compra}/editar', [OrdenCompraController::class, 'edit'])->whereNumber('compra')->name('admin.compras.edit');
+    Route::put('/compras/{compra}', [OrdenCompraController::class, 'update'])->whereNumber('compra')->name('admin.compras.update');
+    Route::patch('/compras/{compra}/estado', [OrdenCompraController::class, 'estado'])->whereNumber('compra')->name('admin.compras.estado');
+
+    // Historial de inventario
+    Route::get('/inventario', [MovimientoInventarioController::class, 'index'])->name('admin.inventario.index');
     
 });
 
