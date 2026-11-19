@@ -75,7 +75,7 @@ class VentaController extends Controller
         DB::transaction(function () use ($venta, $datos) {
             if ($datos['estado'] === 'cancelada') {
                 foreach ($venta->detalles as $d) {
-                    Producto::where('id', $d->producto_id)->Inventario::mover($d->producto_id, $d->cantidad, 'cancelacion', $venta->folio);
+                Inventario::mover($d->producto_id, $d->cantidad, 'cancelacion', $venta->folio);
                 }
             }
 
