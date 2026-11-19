@@ -179,7 +179,7 @@
             @yield('contenido')
         </main>
 
-        <footer class="pie">Guardianes RA &middot; Raíces Creativas &middot; Universidad Tecnológica del Centro de Veracruz</footer>
+        <footer class="pie">Guardianes RA &middot; CAEJA ESTUDIO &middot; Universidad Tecnológica del Centro de Veracruz</footer>
     </div>
 
     <script>

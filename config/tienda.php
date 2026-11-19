@@ -8,7 +8,7 @@ return [
     // Datos para pagar por transferencia (cámbialos por los reales)
     'banco' => [
         'nombre'  => 'BBVA',
-        'titular' => 'Raíces Creativas',
+        'titular' => 'Caeja Estudio',
         'cuenta'  => '0123456789',
         'clabe'   => '012345678901234567',
     ],

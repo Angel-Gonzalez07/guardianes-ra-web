@@ -82,6 +82,6 @@
         @yield('contenido')
     </main>
 
-    <footer>2026 Guardianes RA · Raíces Creativas · UTCV</footer>
+    <footer>2026 Guardianes RA · CAEJA ESTUDIO · UTCV</footer>
 </body>
 </html>
