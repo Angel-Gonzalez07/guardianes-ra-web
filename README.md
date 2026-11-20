@@ -1,58 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Guardianes RA
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación web de **Guardianes RA**, un proyecto de Realidad Aumentada que enseña a cuidar el planeta con tres guardianes: **Goti**, **Lumi** y **Tronqui**. Esta web tiene tres partes: una página de presentación, una tienda de figuras coleccionables y un panel de administración de la tienda.
 
-## About Laravel
+Proyecto integrador del equipo **CAEJA STUDIO**, Universidad Tecnológica del Centro de Veracruz (UTCV), materia Aplicaciones Web.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Qué incluye
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Página de presentación**
+- Conoce a los guardianes, cómo funciona la app de RA y el equipo.
+- Muestra productos reales de la tienda.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Tienda (clientes)**
+- Catálogo con búsqueda y filtro por categoría.
+- Carrito de compras.
+- Compra por pasos: carrito, envío, pago y revisión.
+- Pago por transferencia, con los datos de la cuenta en el comprobante.
+- Comprobante imprimible con línea de tiempo del pedido.
+- Mis pedidos, con cancelación mientras el pedido siga pendiente.
 
-## Learning Laravel
+**Panel de administración**
+- Panel de control con estadísticas.
+- Ventas: consulta, cambio de estado, paquetería y número de guía.
+- Compras a proveedores: órdenes de compra con recepción que sube el stock automáticamente.
+- Inventario: historial de movimientos (ventas, cancelaciones, compras y ajustes).
+- Catálogos: Categorías, Productos, Proveedores, Clientes y Usuarios, con alta, edición, baja, búsqueda y orden.
+- Proveedores con datos comerciales, ficha, filtros y exportación a CSV.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Roles
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Rol | Qué puede hacer |
+|---|---|
+| Administrador | Todo el sistema, incluidos usuarios y cifras de dinero. |
+| Empleado | Panel sin cifras de dinero ni usuarios; ventas, productos, categorías y clientes sin eliminar; proveedores solo lectura. |
+| Cliente | Comprar en la tienda y ver sus propios pedidos. |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Los clientes se registran con cualquier correo. El correo `@utcv.edu.mx` es solo para administrador y empleado.
 
-## Agentic Development
+## Seguridad
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- Protección CSRF y validación de todos los formularios.
+- Límite de intentos en inicio de sesión, registro y compra.
+- Contraseñas con mínimo de 8 caracteres, mayúsculas, minúsculas y números.
+- Cabeceras de seguridad (CSP, X-Frame-Options, entre otras).
+- Cierre automático de sesión para cuentas desactivadas.
+- Validación de nombres para evitar datos sin sentido.
+- Control de stock con bloqueo de filas para evitar ventas duplicadas.
 
-```bash
-composer require laravel/boost --dev
+## Tecnología
 
-php artisan boost:install
+- PHP 8.3 o superior y Laravel 13
+- PostgreSQL
+- Blade para las vistas, con CSS propio
+
+## Instalación
+
+Los pasos completos para correrla en tu computadora están en [INSTALACION.md](INSTALACION.md).
+
+Resumen rápido:
+
+```
+git clone https://github.com/Angel-Gonzalez07/guardianes-ra-web.git
+cd guardianes-ra-web
+composer install
+copy .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Después crea la base de datos con el respaldo incluido y levanta el servidor con `php artisan serve`.
 
-## Contributing
+## Cuentas de prueba
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Rol | Correo | Contraseña |
+|---|---|---|
+| Administrador | caejaestudio@utcv.edu.mx | Admin12345 |
 
-## Code of Conduct
+## Equipo
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+CAEJA STUDIO, UTCV.
