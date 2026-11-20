@@ -9,10 +9,10 @@
            <form method="POST" action="{{ route('login') }}">
                @csrf
                <label for="email">Correo</label>
-               <input type="email" id="email" name="email" value="{{ old('email') }}"require maxlength="50" placeholder="correo@ejemplo.com">
+               <input type="email" id="email" name="email" value="{{ old('email') }}" required maxlength="150" placeholder="correo@ejemplo.com">
 
                <label for="password">Contraseña</label>
-               <input type="password" id="password" name="password" require maxlength="50">
+               <input type="password" id="password" name="password" required maxlength="50">
 
                <button class="btn" type="submit">Entrar</button>
            </form>

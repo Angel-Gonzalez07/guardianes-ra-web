@@ -19,12 +19,12 @@ class AuthController extends Controller
    public function login(Request $request)
    {
        $datos = $request->validate([
-           'email' => ['required', 'max:100', 'regex:/^[A-Za-z0-9._%+\-]+@utcv\.edu\.mx$/i'],
+           'email' => ['required','string','email','max:150'],
            'password' => ['required', 'string', 'min:8', 'max:50'],
        ], [
            'email.required' => 'El correo es obligatorio.',
            'email.max' => 'El correo no puede pasar de 100 caracteres.',
-           'email.regex' => 'Solo se permiten correos institucionales @utcv.edu.mx.',
+           'email.regex' => 'Escibe un Correo Valido',
            'password.required' => 'La contraseña es obligatoria.',
            'password.min' => 'La contraseña debe tener mínimo 8 caracteres.',
            'password.max' => 'La contraseña no puede pasar de 50 caracteres.',
