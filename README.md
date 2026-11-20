@@ -77,5 +77,5 @@ Después crea la base de datos con el respaldo incluido y levanta el servidor co
 ## Equipo
 
 CAEJA STUDIO, UTCV.
-Angel González(Lider del Proyecto WEb y Movil)
-Jose Peres (integrante y Tester)
+- Angel González(Lider del Proyecto WEb y Movil)
+- Jose Perez (integrante y Tester)
